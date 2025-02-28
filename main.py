@@ -24,7 +24,7 @@ load_dotenv()
 st.set_page_config(page_title="ConvertIQ: Unit Converter", page_icon="📏")
 
 
-# Modern CSS Styling
+# CSS Styling
 st.markdown(
     """
     <style>
@@ -41,7 +41,7 @@ st.markdown(
     [data-theme="light"] {
         --shadow-color: 0,0,0;
     }
-    
+
     .stButton > button {
         background-color: #917bc1;
         width: 100%;
@@ -105,6 +105,7 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+# Heading and description
 st.markdown(
     "<h1 style='text-align: center;'>📏 ConvertIQ: Unit Converter</h1>",
     unsafe_allow_html=True
@@ -114,7 +115,7 @@ st.markdown(
     unsafe_allow_html=True
     )
 
-# Add session state tracking for conversion type
+# Session state tracking for conversion type
 if 'prev_conversion_type' not in st.session_state:
     st.session_state.prev_conversion_type = None
 
@@ -127,6 +128,7 @@ with st.sidebar:
          "Pressure", "Energy", "Power", "Data", "Frequency", "Angle", "Currency"]
     )
 
+    # My Details
     st.markdown("---")
     st.markdown("### Made with ❤️ by **Owais Abdullah**")
     st.markdown("**LinkedIn:** [@mrowaisabdullah](https://www.linkedin.com/in/mrowaisabdullah/)")
@@ -196,7 +198,7 @@ if conversion_type in unit_mappings:
                 except requests.exceptions.RequestException as e:
                     st.error(f"Error fetching currency data: {e}")
             else:
-                # Existing conversion functions
+                # Conversion functions
                 conversion_functions = {
                     "Length": convert_length,
                     "Temperature": convert_temperature,
@@ -240,7 +242,7 @@ if conversion_type in unit_mappings:
                         
                         st.session_state.ai_result = (ai_result, explanation)
                         
-                    except Exception as e:
+                    except (requests.exceptions.RequestException, KeyError, ValueError) as e:
                         st.error(f"Error in currency conversion: {e}")
                         ai_response = get_ai_conversions(conversion_type, unit_from, value, unit_to)
                         try:
@@ -251,7 +253,7 @@ if conversion_type in unit_mappings:
                                 ai_result = float(ai_response.split()[0])
                                 explanation = " ".join(ai_response.split()[1:])
                             st.session_state.ai_result = (ai_result, explanation)
-                        except Exception as parse_error:
+                        except (ValueError, IndexError) as parse_error:
                             st.error(f"Error parsing AI response: {str(parse_error)}")
                             st.session_state.ai_result = ("N/A", ai_response)
 
@@ -265,15 +267,15 @@ if conversion_type in unit_mappings:
                             ai_result = float(ai_response.split()[0])
                             explanation = " ".join(ai_response.split()[1:])
                         st.session_state.ai_result = (ai_result, explanation)
-                    except Exception as e:
+                    except (ValueError, IndexError) as e:
                         st.error(f"Error parsing AI response: {str(e)}")
                         st.session_state.ai_result = ("N/A", ai_response)
 
-            except Exception as main_error:
+            except (requests.exceptions.RequestException, ValueError, IndexError) as main_error:
                 st.error(f"AI Conversion Failed: {str(main_error)}")
                 st.session_state.ai_result = ("Error", "Could not generate conversion")
 
-    # Show both results if available
+    # Showing both results if available
     if st.session_state.standard_result is not None:
         st.subheader("Standard Conversion Result:")
         st.markdown(f'''
