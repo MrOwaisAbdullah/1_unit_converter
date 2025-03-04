@@ -282,7 +282,7 @@ if conversion_type in unit_mappings:
         st.markdown(f'''
             <div class="result-container">
                 <strong>{value} {unit_from}</strong> &nbsp;is equal to 
-                <span class="result">{st.session_state.standard_result} {unit_to}</span>
+                <span class="result">{st.session_state.standard_result:.2f} {unit_to}</span>
             </div>
         ''', unsafe_allow_html=True)
 
