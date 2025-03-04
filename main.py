@@ -77,11 +77,11 @@ st.markdown(
     }
 
     .result {
-        font-size: 1.3em;
+        font-size: 1.2em;
         font-weight: 800;
         color: var(--primary-color);
         display: inline-block;
-        padding: 6px 15px;
+        padding: 4px 12px;
         border-radius: 8px;
         margin-left: 10px;
         background-color: rgba(var(--primary-color-rgb), 0.15);
@@ -195,6 +195,7 @@ if conversion_type in unit_mappings:
                     data = response.json()
                     rate = data["rates"][unit_to]
                     result = value * rate
+                    result = result.toFixed(2)
                 except requests.exceptions.RequestException as e:
                     st.error(f"Error fetching currency data: {e}")
             else:
@@ -280,7 +281,7 @@ if conversion_type in unit_mappings:
         st.subheader("Standard Conversion Result:")
         st.markdown(f'''
             <div class="result-container">
-                <strong>{value} {unit_from}</strong> → 
+                <strong>{value} {unit_from}</strong> &nbsp;is equal to 
                 <span class="result">{st.session_state.standard_result} {unit_to}</span>
             </div>
         ''', unsafe_allow_html=True)

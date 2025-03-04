@@ -35,7 +35,7 @@ def get_ai_conversions(conversion_type: str, unit_from: str, value: str, unit_to
             contents=prompt,
             config=types.GenerateContentConfig(
                 max_output_tokens=150,
-                temperature=0.3
+                temperature=0.5
             )
         )
         return response.text
